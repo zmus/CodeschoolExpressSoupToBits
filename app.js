@@ -13,12 +13,13 @@ app.use(express.static('public'));
  *****************************************************************************/
 
 var redis = require('redis');
+var url = require('url');
 
 // https://devcenter.heroku.com/articles/redistogo#using-with-node-js
 if (process.env.REDISTOGO_URL) {
-  var rtg = require('url').parse(process.env.REDISTOGO_URL);
-  var client = redis.createClient(rtg.port, rtg.hostname);
-  client.auth(rtg.auth.split(":")[1]);
+  var redisURL = url.parse(process.env.REDISTOGO_URL);
+  var client = redis.createClient(redisURL.port, redisURL.hostname);
+  client.auth(redisURL.auth.split(":")[1]);
 } else {
   var client = redis.createClient();
   // select production db OR development db if process.env.NODE_ENV === undefined
