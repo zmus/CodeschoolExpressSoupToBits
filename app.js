@@ -8,13 +8,27 @@ var urlencode = bodyParser.urlencoded({ extended: false });
 
 app.use(express.static('public'));
 
+/******************************************************************************
+ *                                 REDIS                         
+ *****************************************************************************/
+
 var redis = require('redis');
-var client = redis.createClient();
+
+// https://devcenter.heroku.com/articles/redistogo#using-with-node-js
+if (process.env.REDISTOGO_URL) {
+  var rtg = require('url').parse(process.env.REDISTOGO_URL);
+  var client = redis.createClient(rtg.port, rtg.hostname);
+  client.auth(rtg.auth.split(":")[1]);
+} else {
+  var client = redis.createClient();
+}
 
 // select production db OR development db if process.env.NODE_ENV === undefined
-client.select(process.env.NODE_ENV || 'test'.length);
+client.select((process.env.NODE_ENV || 'test').length);
 
-client.flushdb();
+/******************************************************************************
+ *                                 ROUTES                        
+ *****************************************************************************/
 
 app.get('/cities', function (req, res) {
   client.hkeys('cities', function (error, names) {
