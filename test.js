@@ -113,17 +113,61 @@ describe('Creating new cities', function () {
       .expect(/springfield/i, done);
   });
 
+  it('Validates city name and description', function (done) {
+
+    request(app)
+      .post('/cities')
+      .send('name=&description=')
+      .expect(400, done);  // 400 bad request
+  });
 });
 
 
 describe('Deleting cities', function () {
 
-  it('Returns 204 status code (no content)', function (done) {  
+  before(function () {
+    client.hset('cities', 'Banana', 'a tasty city');
+  });
+
+  after(function () {
+    client.flushdb();
+  });
+
+  it('Returns 204 status code', function (done) {  
 
     request(app)
       .delete('/cities/Springfield')
-      .expect(204, done);
+      .expect(204, done);  // 204 no content
   });
 });
 
+
+describe('Shows city info', function () {
+
+  before(function () {
+    client.hset('cities', 'Banana', 'a tasty city');
+  });
+
+  after(function () {
+    client.flushdb();
+  });
+
+  it('Returns 200 status code', function (done) {  
+    request(app)
+      .get('/cities/Banana')
+      .expect(200, done);  
+  });
+
+  it('Returns HTML format', function (done) {  
+    request(app)
+      .get('/cities/Banana')
+      .expect('Content-Type', /html/, done);  
+  });
+
+  it('Returns 20 status code', function (done) {  
+    request(app)
+      .get('/cities/Banana')
+      .expect(200, done);  
+  });
+});
   
