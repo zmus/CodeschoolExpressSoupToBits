@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+// The "shebang line"
+//   * remove any spaces at the end of the line!
+
+// 'www' is JS executable file without the .js extension
+
+// Make file executable:  chmod +x bin/www
+
+// Run: ./bin/www
+
+var app = require('./../app');
+app.listen(3000, function () {
+  console.log('Listening on port 3000');
+});
