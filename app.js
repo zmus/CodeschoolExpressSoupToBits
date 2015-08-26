@@ -21,10 +21,9 @@ if (process.env.REDISTOGO_URL) {
   client.auth(rtg.auth.split(":")[1]);
 } else {
   var client = redis.createClient();
+  // select production db OR development db if process.env.NODE_ENV === undefined
+  client.select((process.env.NODE_ENV || 'test').length);
 }
-
-// select production db OR development db if process.env.NODE_ENV === undefined
-client.select((process.env.NODE_ENV || 'test').length);
 
 /******************************************************************************
  *                                 ROUTES                        
