@@ -347,6 +347,11 @@
           "resolved": "https://registry.npmjs.org/vary/-/vary-1.0.1.tgz"
         }
       }
+    },
+    "redis": {
+      "version": "0.12.1",
+      "from": "redis@*",
+      "resolved": "https://registry.npmjs.org/redis/-/redis-0.12.1.tgz"
     }
   }
 }
