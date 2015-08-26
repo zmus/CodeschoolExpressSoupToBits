@@ -96,7 +96,7 @@ describe('Creating new cities', function () {
 
     request(app)
       .post('/cities')
-      /*
+      /**
        * We can send:
        *  - JS object (will be translated into JSON)
        *  - urlencoded data - ex. form submit
@@ -113,6 +113,17 @@ describe('Creating new cities', function () {
       .expect(/springfield/i, done);
   });
 
+});
+
+
+describe('Deleting cities', function () {
+
+  it('Returns 204 status code (no content)', function (done) {  
+
+    request(app)
+      .delete('/cities/Springfield')
+      .expect(204, done);
+  });
 });
 
   

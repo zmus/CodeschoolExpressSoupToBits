@@ -9,7 +9,7 @@ var urlencode = bodyParser.urlencoded({ extended: false });
 app.use(express.static('public'));
 
 /******************************************************************************
- *                                 REDIS                         
+ *                                 REDIS                        
  *****************************************************************************/
 
 var redis = require('redis');
@@ -45,6 +45,13 @@ app.post('/cities', urlencode, function (req, res) {
   });
 });
 
+app.delete('/cities/:name', function (req, res) {
+  client.hdel('cities', req.params.name, function (err) {
+    if (err) throw error;
+    res.sendStatus(204);
+  });
+});
+
 /*
 app.listen(3000, function () {
   console.log('Listening on 3000...');
@@ -56,4 +63,4 @@ We want our app and code that binds app to the network to be in a different file
 module.exports = app;
 
 // Notice we don't export bodyParser, Redis..., only 'app' which uses them!
-//  => other modules can use different or the same databases, ex. test.js  
+//  => other modules like test.js can use different or the same database 
