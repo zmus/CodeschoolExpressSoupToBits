@@ -10,7 +10,10 @@
 // Run: ./bin/www
 
 var app = require('./../app');
+
+// heroku uses it's own port?
 var port = process.env.PORT || 3000;
+
 app.listen(port, function () {
   console.log('Listening on port ' + port);
 });

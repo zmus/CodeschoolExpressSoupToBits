@@ -42,6 +42,7 @@ describe('Requests to the root path', function () {
   }); 
 });
 
+
 describe('Listing cities on /cities', function () {
 
   it('Returns 200 status code', function (done) {
@@ -68,5 +69,34 @@ describe('Listing cities on /cities', function () {
       .expect(JSON.stringify(['Lotopia', 'Caspiana', 'Indigo']), done);  
 
   });
+});
+
+
+describe('Creating new cities', function () {
+
+  it('Returns 201 status code', function (done) {
+
+    request(app)
+      .post('/cities')
+      /*
+       * We can send:
+       *  - JS object (will be translated into JSON)
+       *  - urlencoded data - ex. form submit
+       */
+      .send('name=Springfield&description=where+the+simpsons+live')
+      .expect(201, done);
+
+  });
+
+  it('Return the city name', function (done) {
+
+    request(app)
+      .post('/cities')
+      .send('name=Springfield&description=where+the+simpsons+live')
+      .expect(/springfield/i, done);
+
+  });
+
+
 });
 

@@ -8,6 +8,10 @@ app.get('/cities', function (req, res) {
   res.json(cities);
 });
 
+app.post('/cities', function (req, res) {
+  res.sendStatus(201);
+})
+
 /*
 app.listen(3000, function () {
   console.log('Listening on 3000...');
