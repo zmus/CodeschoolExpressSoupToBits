@@ -66,7 +66,7 @@ describe('Listing cities on /cities', function () {
     request(app)
       .get('/cities')
       // expect('["Lotopia","Caspiana","Indigo"]', done);
-      .expect(JSON.stringify(['Lotopia', 'Caspiana', 'Indigo']), done);  
+      .expect(JSON.stringify(['Krizevci', 'Zagreb', 'Hvar']), done);  
 
   });
 });
