@@ -14,6 +14,27 @@
 var request = require('supertest');
 var app = require('./app');
 
+/******************************************************************************
+ *                                 REDIS                         
+ *****************************************************************************/
+
+var redis = require('redis');
+var client = redis.createClient();
+
+// Select DB 4
+client.select('test'.length); 
+
+// Delete all the keys of the currently selected DB  
+client.flushdb();
+
+client.hset('cities', 'Krizevci', 'moj su grad');
+client.hset('cities', 'Zagreb', 'europska metropola');
+client.hset('cities', 'Hvar', 'lapanov grad');
+
+/******************************************************************************
+ *                                 TESTS                         
+ *****************************************************************************/
+
 describe('Requests to the root path', function () {
 
   it('Returns 200 status code', function (done) {
@@ -50,7 +71,6 @@ describe('Listing cities on /cities', function () {
     request(app)
       .get('/cities')
       .expect(200, done);
-
   });
 
   it('Returns JSON format', function (done) {
@@ -58,16 +78,14 @@ describe('Listing cities on /cities', function () {
       request(app)
         .get('/cities')
         .expect('Content-Type', /json/, done);  // RegEx
-
   });
 
   it('Returns initial cities', function (done) {
 
     request(app)
       .get('/cities')
-      // expect('["Lotopia","Caspiana","Indigo"]', done);
+      // expect('["Krizevci","Zagreb","Hvar"]', done);
       .expect(JSON.stringify(['Krizevci', 'Zagreb', 'Hvar']), done);  
-
   });
 });
 
@@ -85,7 +103,6 @@ describe('Creating new cities', function () {
        */
       .send('name=Springfield&description=where+the+simpsons+live')
       .expect(201, done);
-
   });
 
   it('Return the city name', function (done) {
@@ -94,9 +111,8 @@ describe('Creating new cities', function () {
       .post('/cities')
       .send('name=Springfield&description=where+the+simpsons+live')
       .expect(/springfield/i, done);
-
   });
-
 
 });
 
+  
