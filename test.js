@@ -164,10 +164,10 @@ describe('Shows city info', function () {
       .expect('Content-Type', /html/, done);  
   });
 
-  it('Returns 20 status code', function (done) {  
+  it('Returns information for given city', function (done) {  
     request(app)
       .get('/cities/Banana')
-      .expect(200, done);  
+      .expect(/tasty/, done);  
   });
 });
   

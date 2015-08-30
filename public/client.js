@@ -1,4 +1,4 @@
-$(function(){
+ $(function(){
 
   $.get('/cities', appendToList);
 
